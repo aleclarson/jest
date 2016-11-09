@@ -67,6 +67,10 @@ class HasteFS {
     return files;
   }
 
+  merge(hasteFS: HasteFS) {
+    Object.assign(this._files, hasteFS._files);
+  }
+
 }
 
 module.exports = HasteFS;

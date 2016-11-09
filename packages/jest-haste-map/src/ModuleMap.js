@@ -67,6 +67,11 @@ class ModuleMap {
     return this._mocks[name];
   }
 
+  merge(map: ModuleMap) {
+    Object.assign(this._map, map._map);
+    Object.assign(this._mocks, map._mocks);
+  }
+
 }
 
 module.exports = ModuleMap;
