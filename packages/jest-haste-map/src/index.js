@@ -242,6 +242,20 @@ class HasteMap {
     return new ModuleMap(data.map, data.mocks);
   }
 
+  // 1. Read cached data.
+  // 2. Crawl for changes, but only wait if no cached data existed.
+  // 3. Call the iterator with each file change.
+  findChangedFiles(iterator: Function): Promise {
+    const read = this._options.resetCache ? this._createEmptyMap : this.read;
+
+    return Promise.resolve()
+      .then(() => read.call(this))
+      .catch(() => this._createEmptyMap())
+      .then(hasteMap => {
+
+      })
+  }
+
   /**
    * 2. crawl the file system.
    */

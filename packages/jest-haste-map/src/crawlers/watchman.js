@@ -52,6 +52,7 @@ module.exports = function watchmanCrawl(
 
     const clocks = data.clocks;
     let files = data.files;
+    const changes = [];
 
     return Promise.all(roots.map(root => cmd(['watch-project', root])))
       .then(responses => {
@@ -103,14 +104,13 @@ module.exports = function watchmanCrawl(
             response.files.forEach(fileData => {
               const name = root + path.sep + fileData.name;
               if (!fileData.exists) {
-                delete files[name];
+                changes.push({name});
               } else if (!ignore(name)) {
                 const mtime = fileData.mtime_ms.toNumber();
                 const isNew =
                   !data.files[name] || data.files[name][H.MTIME] !== mtime;
                 if (isNew) {
-                  // See ../constants.js
-                  files[name] = ['', mtime, 0, []];
+                  changes.push({name, mtime});
                 } else {
                   files[name] = data.files[name];
                 }
@@ -122,7 +122,7 @@ module.exports = function watchmanCrawl(
       .then(() => {
         client.end();
         data.files = files;
-        resolve(data);
+        resolve(changes);
       })
       .catch(error => {
         client.end();
