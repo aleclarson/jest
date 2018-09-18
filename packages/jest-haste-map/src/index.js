@@ -281,7 +281,7 @@ class HasteMap extends EventEmitter {
         .then(data => this._buildHasteMap(data))
         .then(hasteMap => {
           this._persist(hasteMap);
-          const hasteFS = new HasteFS(hasteMap.files);
+          const hasteFS = new HasteFS(hasteMap.files, hasteMap.links);
           const moduleMap = new HasteModuleMap({
             duplicates: hasteMap.duplicates,
             map: hasteMap.map,
@@ -706,7 +706,7 @@ class HasteMap extends EventEmitter {
         mustCopy = true;
         this.emit('change', {
           eventsQueue,
-          hasteFS: new HasteFS(hasteMap.files),
+          hasteFS: new HasteFS(hasteMap.files, hasteMap.links),
           moduleMap: new HasteModuleMap({
             duplicates: hasteMap.duplicates,
             map: hasteMap.map,
@@ -755,6 +755,7 @@ class HasteMap extends EventEmitter {
               clocks: copy(hasteMap.clocks),
               duplicates: copy(hasteMap.duplicates),
               files: copy(hasteMap.files),
+              links: copy(hasteMap.links),
               map: copy(hasteMap.map),
               mocks: copy(hasteMap.mocks),
             };
@@ -941,6 +942,7 @@ class HasteMap extends EventEmitter {
       clocks: Object.create(null),
       duplicates: Object.create(null),
       files: Object.create(null),
+      links: Object.create(null),
       map: Object.create(null),
       mocks: Object.create(null),
     };

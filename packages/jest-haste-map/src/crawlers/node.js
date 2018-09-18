@@ -144,6 +144,7 @@ module.exports = function nodeCrawl(
         }
       });
       data.files = files;
+      data.links = {};
       resolve(data);
     };
 

@@ -8,17 +8,20 @@
  */
 
 import type {Glob, Path} from 'types/Config';
-import type {FileData} from 'types/HasteMap';
+import type {FileData, LinkData} from 'types/HasteMap';
 
+import fs from 'fs';
 import path from 'path';
 import micromatch from 'micromatch';
 import H from './constants';
 
 export default class HasteFS {
   _files: FileData;
+  _links: LinkData;
 
-  constructor(files: FileData) {
+  constructor(files: FileData, links: LinkData) {
     this._files = files;
+    this._links = links;
   }
 
   getModuleName(file: Path): ?string {
@@ -35,6 +38,11 @@ export default class HasteFS {
 
   exists(file: Path): boolean {
     return !!this._files[file];
+  }
+
+  follow(file: Path): Path {
+    const link = this._links[file];
+    return link ? link[0] || (link[0] = fs.realpathSync(file)) : file;
   }
 
   getAllFiles(): Array<string> {

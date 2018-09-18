@@ -14,6 +14,7 @@ export type HasteFS = FS;
 export type ModuleMap = _ModuleMap;
 
 export type FileData = {[filepath: Path]: FileMetaData, __proto__: null};
+export type LinkData = {[linkpath: Path]: LinkMetaData, __proto__: null};
 export type MockData = {[id: string]: Path, __proto__: null};
 export type ModuleMapData = {[id: string]: ModuleMapItem, __proto__: null};
 export type WatchmanClocks = {[filepath: Path]: string, __proto__: null};
@@ -31,6 +32,7 @@ export type InternalHasteMap = {|
   clocks: WatchmanClocks,
   duplicates: DuplicatesIndex,
   files: FileData,
+  links: LinkData,
   map: ModuleMapData,
   mocks: MockData,
 |};
@@ -54,6 +56,8 @@ export type FileMetaData = [
   /* dependencies */ Array<string>,
   /* sha1 */ ?string,
 ];
+
+export type LinkMetaData = [/* target */ ?string, /* mtime */ number];
 
 type ModuleMapItem = {[platform: string]: ModuleMetaData};
 export type ModuleMetaData = [Path, /* type */ number];
