@@ -10,13 +10,13 @@
   "dependencies": {
     "babel-types": "^6.0.0",
     "chalk": "^2.0.1",
-    "jest-diff": "^23.6.0",
-    "jest-matcher-utils": "^23.6.0",
-    "jest-message-util": "^23.4.0",
-    "jest-resolve": "^23.6.0",
+    "jest-diff": "file:../jest-diff",
+    "jest-matcher-utils": "file:../jest-matcher-utils",
+    "jest-message-util": "file:../jest-message-util",
+    "jest-resolve": "file:../jest-resolve",
     "mkdirp": "^0.5.1",
     "natural-compare": "^1.4.0",
-    "pretty-format": "^23.6.0",
+    "pretty-format": "file:../pretty-format",
     "semver": "^5.5.0"
   },
   "devDependencies": {
