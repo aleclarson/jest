@@ -53,6 +53,20 @@
 - `[jest-runtime]` Fix missing coverage when using negative glob pattern in `testMatch` ([#7170](https://github.com/facebook/jest/pull/7170))
 - `[*]` Ensure `maxWorkers` is at least 1 (was 0 in some cases where there was only 1 CPU) ([#7182](https://github.com/facebook/jest/pull/7182))
 - `[jest-runtime]` Fix transform cache invalidation when requiring a test file from multiple projects ([#7186](https://github.com/facebook/jest/pull/7186))
+- `[jest-changed-files]` Return correctly the changed files when using `lastCommit=true` on Mercurial repositories ([#7228](https://github.com/facebook/jest/pull/7228))
+- `[babel-jest]` Cache includes babel environment variables ([#7239](https://github.com/facebook/jest/pull/7239))
+- `[jest-config]` Use strings instead of `RegExp` instances in normalized configuration ([#7251](https://github.com/facebook/jest/pull/7251))
+- `[jest-circus]` Make sure to display real duration even if time is mocked ([#7264](https://github.com/facebook/jest/pull/7264))
+- `[expect]` Improves the failing message for `toStrictEqual` matcher. ([#7224](https://github.com/facebook/jest/pull/7224))
+- `[jest-resolve]` Fix not being able to resolve path to mapped file with custom platform ([#7312](https://github.com/facebook/jest/pull/7312))
+- `[jest-message-util]` Improve parsing of error messages for unusually formatted stack traces ([#7319](https://github.com/facebook/jest/pull/7319))
+- `[jest-runtime]` Ensure error message text is not lost on errors with code frames ([#7319](https://github.com/facebook/jest/pull/7319))
+- `[jest-haste-map]` Fix to resolve path that is start with words same as rootDir ([#7324](https://github.com/facebook/jest/pull/7324))
+- `[expect]` Fix toMatchObject matcher when used with `Object.create(null)` ([#7334](https://github.com/facebook/jest/pull/7334))
+- `[jest-haste-map]` Remove legacy condition for duplicate module detection ([#7333](https://github.com/facebook/jest/pull/7333))
+- `[jest-haste-map]` Fix `require` detection with trailing commas and ignore `import typeof` modules ([#7385](https://github.com/facebook/jest/pull/7385))
+- `[jest-cli]` Fix to set prettierPath via config file ([#7412](https://github.com/facebook/jest/pull/7412))
+- `[jest-cli]` Support dashed args ([#7497](https://github.com/facebook/jest/pull/7497))
 
 ### Chore & Maintenance
 
