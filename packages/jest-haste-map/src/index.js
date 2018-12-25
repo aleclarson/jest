@@ -893,12 +893,15 @@ class HasteMap extends EventEmitter {
         });
     };
 
+    // Watch every locally developed package that is found.
+    const roots = new Set(this._options.roots);
+    for (const root of hasteMap.links.keys())
+      roots.add(path.resolve(rootDir, root));
+
     this._changeInterval = setInterval(emitChange, CHANGE_INTERVAL);
-    return Promise.all(this._options.roots.map(createWatcher)).then(
-      watchers => {
-        this._watchers = watchers;
-      },
-    );
+    return Promise.all(Array.from(roots).map(createWatcher)).then(watchers => {
+      this._watchers = watchers;
+    });
   }
 
   /**

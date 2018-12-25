@@ -19,7 +19,7 @@ export type ModuleMap = _ModuleMap;
 export type SerializableModuleMap = _SerializableModuleMap;
 
 export type FileData = Map<Path, FileMetaData>;
-export type LinkData = Map<Path, LinkMetaData>;
+export type LinkData = Map<Path, Map<Path, LinkMetaData>>;
 export type MockData = Map<string, Path>;
 export type ModuleMapData = Map<string, ModuleMapItem>;
 export type WatchmanClocks = Map<Path, string>;
