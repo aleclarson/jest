@@ -64,6 +64,7 @@ type Options = {
   retainAllFiles: boolean,
   rootDir: string,
   roots: Array<string>,
+  skipHastePackages?: boolean,
   throwOnModuleCollision?: boolean,
   useWatchman?: boolean,
   watch?: boolean,
@@ -85,6 +86,7 @@ type InternalOptions = {
   retainAllFiles: boolean,
   rootDir: string,
   roots: Array<string>,
+  skipHastePackages: boolean,
   throwOnModuleCollision: boolean,
   useWatchman: boolean,
   watch: boolean,
@@ -103,6 +105,7 @@ export type FS = HasteFS;
 const CHANGE_INTERVAL = 30;
 const MAX_WAIT_TIME = 240000;
 const NODE_MODULES = path.sep + 'node_modules' + path.sep;
+const PACKAGE_JSON = path.sep + 'package.json';
 
 const canUseWatchman = ((): boolean => {
   try {
@@ -244,6 +247,7 @@ class HasteMap extends EventEmitter {
       retainAllFiles: options.retainAllFiles,
       rootDir: options.rootDir,
       roots: Array.from(new Set(options.roots)),
+      skipHastePackages: !!options.skipHastePackages,
       throwOnModuleCollision: !!options.throwOnModuleCollision,
       useWatchman: options.useWatchman == null ? true : options.useWatchman,
       watch: !!options.watch,
@@ -587,6 +591,12 @@ class HasteMap extends EventEmitter {
     }
 
     for (const relativeFilePath of hasteMap.files.keys()) {
+      if (
+        this._options.skipHastePackages &&
+        relativeFilePath.endsWith(PACKAGE_JSON)
+      ) {
+        continue;
+      }
       // SHA-1, if requested, should already be present thanks to the crawler.
       const filePath = fastPath.resolve(
         this._options.rootDir,
