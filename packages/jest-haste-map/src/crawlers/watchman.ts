@@ -199,9 +199,10 @@ export = async function watchmanCrawl(
       queryResponse.files.map(async (link: WatchmanFile) => {
         const name = normalizePathSep(link.name);
         const linkPath = path.join(watchRoot, name);
+        const relativePath = fastPath.relative(rootDir, linkPath);
 
         if (!link.exists || ignore(linkPath)) {
-          data.links.delete(linkPath);
+          data.links.delete(relativePath);
           return;
         }
 
@@ -212,10 +213,10 @@ export = async function watchmanCrawl(
           return; // Skip broken symlinks.
         }
 
-        const metaData = data.links.get(linkPath);
+        const metaData = data.links.get(relativePath);
         const mtime = testModified(metaData, link.mtime_ms);
         dependencyLinks.set(
-          linkPath,
+          relativePath,
           mtime !== 0 ? [target, mtime] : metaData!,
         );
 
