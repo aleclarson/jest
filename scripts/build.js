@@ -156,10 +156,11 @@ function buildFile(file, silent) {
       });
     }
 
-    const transformed = babel.transformFileSync(file, options).code;
-    const prettyCode = prettier.format(transformed, prettierConfig);
+    const transformed = babel.transformFileSync(file, options);
+    const prettyCode = prettier.format(transformed.code, prettierConfig);
 
     fs.writeFileSync(destPath, prettyCode);
+    fs.writeFileSync(destPath + '.map', JSON.stringify(transformed.map));
 
     silent ||
       process.stdout.write(
