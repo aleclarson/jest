@@ -31,4 +31,5 @@ module.exports = {
       },
     ],
   ],
+  sourceMaps: true,
 };

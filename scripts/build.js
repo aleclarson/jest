@@ -28,7 +28,6 @@ const mkdirp = require('mkdirp');
 const babel = require('@babel/core');
 const chalk = require('chalk');
 const micromatch = require('micromatch');
-const prettier = require('prettier');
 const {getPackages, adjustToTerminalWidth, OK} = require('./buildUtils');
 const browserBuild = require('./browserBuild');
 
@@ -43,10 +42,6 @@ const PACKAGES_DIR = path.resolve(__dirname, '../packages');
 const INLINE_REQUIRE_BLACKLIST = /packages\/expect|(jest-(circus|diff|get-type|jasmine2|matcher-utils|message-util|regex-util|snapshot))|pretty-format\//;
 
 const transformOptions = require('../babel.config.js');
-
-const prettierConfig = prettier.resolveConfig.sync(__filename);
-prettierConfig.trailingComma = 'none';
-prettierConfig.parser = 'babel';
 
 function getPackageName(file) {
   return path.relative(PACKAGES_DIR, file).split(path.sep)[0];
@@ -156,10 +151,16 @@ function buildFile(file, silent) {
       });
     }
 
-    const transformed = babel.transformFileSync(file, options).code;
-    const prettyCode = prettier.format(transformed, prettierConfig);
+    options.sourceFileName = path.relative(path.dirname(destPath), file);
 
-    fs.writeFileSync(destPath, prettyCode);
+    const transformed = babel.transformFileSync(file, options);
+    transformed.code +=
+      '\n//# sourceMappingURL=' + path.basename(destPath + '.map');
+
+    delete transformed.map.sourcesContent;
+
+    fs.writeFileSync(destPath, transformed.code);
+    fs.writeFileSync(destPath + '.map', JSON.stringify(transformed.map));
 
     silent ||
       process.stdout.write(
