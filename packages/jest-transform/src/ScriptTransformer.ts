@@ -317,6 +317,7 @@ export default class ScriptTransformer {
           ? transformed.map
           : JSON.stringify(transformed.map);
       writeCacheFile(sourceMapPath, sourceMapContent);
+      code += '\n//# sourceMappingURL=' + sourceMapPath;
     } else {
       sourceMapPath = null;
     }
