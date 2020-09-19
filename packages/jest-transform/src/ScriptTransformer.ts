@@ -309,6 +309,9 @@ export default class ScriptTransformer {
       code = this._instrumentFile(filename, transformed.code);
     } else {
       code = transformed.code;
+      if (map) {
+        code += '\n//# sourceMappingURL=' + sourceMapPath;
+      }
     }
 
     if (transformed.map) {
@@ -317,7 +320,6 @@ export default class ScriptTransformer {
           ? transformed.map
           : JSON.stringify(transformed.map);
       writeCacheFile(sourceMapPath, sourceMapContent);
-      code += '\n//# sourceMappingURL=' + sourceMapPath;
     } else {
       sourceMapPath = null;
     }
