@@ -309,7 +309,7 @@ export default class ScriptTransformer {
       code = this._instrumentFile(filename, transformed.code);
     } else {
       code = transformed.code;
-      if (map) {
+      if (transformed.map) {
         code += '\n//# sourceMappingURL=' + sourceMapPath;
       }
     }
